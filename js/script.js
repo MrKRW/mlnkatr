@@ -570,6 +570,7 @@ function initTourSlider() {
   const nextBtn = document.querySelector('.slider-btn.next');
 
   function slideNext() {
+    if (window.innerWidth <= 900) return;
     const cards = container.querySelectorAll('.tour-card');
     if(cards.length === 0) return;
     container.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
@@ -587,6 +588,7 @@ function initTourSlider() {
   }
 
   function slidePrev() {
+    if (window.innerWidth <= 900) return;
     const cards = container.querySelectorAll('.tour-card');
     if(cards.length === 0) return;
     container.style.transition = 'none';

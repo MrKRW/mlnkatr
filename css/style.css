@@ -1296,12 +1296,12 @@ h1.script-title { font-family: 'Reey', cursive; font-weight: normal; font-size: 
     flex-direction: row;
     width: 100%;
     left: 0;
-    transform: none;
+    transform: none !important;
     align-items: stretch;
-    padding: 20px;
+    padding: 20px 0;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    scroll-padding: 20px;
+    scroll-padding: 0;
     -webkit-overflow-scrolling: touch;
     gap: 20px;
   }
@@ -1311,11 +1311,12 @@ h1.script-title { font-family: 'Reey', cursive; font-weight: normal; font-size: 
   .tour-card {
     opacity: 1;
     transform: scale(1) !important;
-    width: 280px;
+    width: 100%;
+    flex: 0 0 100%;
     max-width: none;
     margin-bottom: 0;
     flex-shrink: 0;
-    scroll-snap-align: start;
+    scroll-snap-align: center;
   }
   .tour-card.active {
     box-shadow: 0 10px 30px rgba(0,0,0,0.06);
