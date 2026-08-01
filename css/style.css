@@ -38,7 +38,7 @@
   --shadow-lg: 0 24px 60px rgba(10, 37, 64, 0.18);
 
   --container: 1200px;
-  --header-h: 80px;
+  --header-h: 65px;
 }
 
 /* ---------- Reset ---------- */
@@ -137,8 +137,8 @@ h2.section-title { font-size: clamp(1.8rem, 3.4vw, 2.7rem); }
 .site-header .container { display: flex; align-items: center; justify-content: space-between; width: 100%; }
 
 .brand { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; color: var(--deep-blue); }
-.brand-mark { width: 38px; height: 38px; flex-shrink: 0; }
-.brand-name span { color: var(--brand-blue); }
+.brand-mark { max-height: 100px; height: 95px; width: auto; flex-shrink: 0; }
+.brand-name { display: none; }
 
 .main-nav { display: flex; align-items: center; gap: 8px; }
 .main-nav a {
@@ -257,7 +257,7 @@ h2.section-title { font-size: clamp(1.8rem, 3.4vw, 2.7rem); }
 .value-icon {
   width: 48px; height: 48px;
   border-radius: 12px;
-  background: linear-gradient(135deg, var(--sky), var(--royal-blue));
+  background: var(--deep-blue);
   display: flex; align-items: center; justify-content: center;
   margin-bottom: 16px;
   color: var(--white);
