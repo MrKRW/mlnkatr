@@ -1293,3 +1293,80 @@ h1.script-title { font-family: 'Reey', cursive; font-weight: normal; font-size: 
     padding: 40px 30px;
   }
 }
+
+/* ---------- New Tour Card Design ---------- */
+.tour-card-new {
+  background: var(--white);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+}
+.tour-card-new:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+}
+.tour-card-img-wrap {
+  position: relative;
+  height: 240px;
+}
+.tour-card-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.tour-badge-top {
+  position: absolute;
+  top: 16px; left: 16px;
+  background: var(--deep-blue); color: var(--white);
+  padding: 6px 14px; border-radius: 20px;
+  font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.tour-price-badge {
+  position: absolute;
+  bottom: 16px; right: 16px;
+  background: rgba(30, 41, 59, 0.85); color: var(--white);
+  padding: 8px 16px; border-radius: 20px;
+  font-size: 1.15rem; font-weight: 700;
+  backdrop-filter: blur(4px);
+}
+.tour-price-badge span { font-size: 0.75rem; font-weight: 400; color: #cbd5e1; }
+.tour-card-body { padding: 24px; display: flex; flex-direction: column; flex: 1; }
+.tour-meta { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px; font-weight: 500; }
+.tour-meta-stars { color: #10b981; font-weight: 700; }
+.tour-meta-stars span { color: #94a3b8; font-weight: 400; font-size: 0.8rem; }
+.tour-card-body h3 { font-family: var(--font-display); font-size: 1.35rem; margin-bottom: 8px; color: var(--deep-blue); line-height: 1.3; transition: color 0.2s; }
+.tour-card-body h3:hover { color: var(--brand-blue); }
+.tour-card-body p.sub { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px; }
+.tour-includes { list-style: none; padding: 0; margin: 0; flex: 1; }
+.tour-includes li { font-size: 0.85rem; color: var(--text-body); margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px; }
+.tour-includes li::before { content: '✓'; color: var(--text-muted); font-weight: bold; }
+
+/* Filter Pill Bar */
+.filter-pill-bar {
+  display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 40px; justify-content: center;
+}
+.filter-pill-btn {
+  background: var(--white);
+  color: var(--deep-blue);
+  border: 1px solid var(--border-soft);
+  padding: 10px 24px;
+  border-radius: 30px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex; align-items: center; gap: 8px;
+}
+.filter-pill-btn:hover { border-color: var(--brand-blue); color: var(--brand-blue); }
+.filter-pill-btn.active { background: var(--deep-blue); color: var(--white); border-color: var(--deep-blue); }
+
+.tours-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 30px;
+}

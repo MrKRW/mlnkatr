@@ -11,13 +11,16 @@ const TOURS = [
   {
     id: 'royal-cultural',
     name: "The Royal Cultural Heritage Tour",
-    duration: "6D/5N",
+    duration: "6 Days / 5 Nights",
     days: 6,
     category: "Cultural",
     price: 850,
-    grad: "grad-1",
-    highlights: ["Sigiriya Rock", "Dambulla Caves", "Temple of the Tooth", "Polonnaruwa", "Minneriya Safari"],
-    summary: "A journey through 2,000 years of Sri Lankan civilisation — ancient citadels, sacred temples and elephant gatherings.",
+    image: "images/sigiriya_rock.png",
+    badge: "BESTSELLER",
+    rating: "4.9",
+    reviews: 128,
+    highlights: ["Climb UNESCO Sigiriya Rock Fortress", "Visit Dambulla Golden Cave Temple", "Experience Temple of the Tooth Relic in Kandy"],
+    summary: "Explore Sigiriya, Dambulla & Kandy Sacred Temples",
     itinerary: [
       "Arrive Colombo, private transfer to Sigiriya, evening at leisure.",
       "Climb the Sigiriya rock fortress and explore the frescoes and water gardens.",
@@ -31,13 +34,16 @@ const TOURS = [
   {
     id: 'ella-highlands',
     name: "Ella & Hill Country Highlands Escape",
-    duration: "5D/4N",
+    duration: "5 Days / 4 Nights",
     days: 5,
     category: "Adventure & Nature",
     price: 720,
-    grad: "grad-2",
-    highlights: ["Kandy–Ella Train", "Nine Arch Bridge", "Little Adam's Peak", "Tea Plantations", "Ravana Falls"],
-    summary: "Misty hills, emerald tea terraces and the most scenic train ride in Asia through Sri Lanka's highlands.",
+    image: "images/ella_nine_arch.png",
+    badge: "TOP SCENIC",
+    rating: "4.95",
+    reviews: 94,
+    highlights: ["Famous Kandy to Ella Observation Train", "Nine Arch Bridge Photo Walk", "Hike Little Adam's Peak"],
+    summary: "Cloud forests, waterfalls & scenic blue train ride",
     itinerary: [
       "Arrive, transfer to Kandy, riverside dinner and rest.",
       "Board the iconic Kandy–Ella scenic train through tea country.",
@@ -50,13 +56,16 @@ const TOURS = [
   {
     id: 'southern-paradise',
     name: "Southern Paradise & Blue Whale Safari",
-    duration: "7D/6N",
+    duration: "7 Days / 6 Nights",
     days: 7,
     category: "Beach & Wildlife",
     price: 980,
-    grad: "grad-3",
-    highlights: ["Mirissa Whale Watching", "Galle Fort Sunset", "Bentota Water Sports", "Unawatuna Beach", "Turtle Hatchery"],
-    summary: "Golden coastlines, colonial ramparts and the world's largest mammal in the waters off Mirissa.",
+    image: "images/mirissa_beach_whale.png",
+    badge: "POPULAR",
+    rating: "4.88",
+    reviews: 156,
+    highlights: ["Mirissa Private Catamaran Whale Watching", "Galle Dutch Fort Sunset Rampart Walk", "Stilt Fishermen of Koggala"],
+    summary: "Golden beaches, Galle Fort & oceanic giants",
     itinerary: [
       "Arrive Colombo, transfer to Bentota, water sports session.",
       "Free morning, transfer to Galle, sunset walk on the fort ramparts.",
@@ -71,13 +80,16 @@ const TOURS = [
   {
     id: 'yala-wildlife',
     name: "Yala Wildlife & Wild Ceylon Odyssey",
-    duration: "4D/3N",
+    duration: "4 Days / 3 Nights",
     days: 4,
     category: "Wildlife & Safari",
     price: 690,
-    grad: "grad-4",
-    highlights: ["Yala 4x4 Safaris", "Leopards & Sloth Bears", "Udawalawe Elephants", "Luxury Glamping"],
-    summary: "The highest leopard density on earth, roaming elephant herds, and nights under canvas in luxury tented camps.",
+    image: "images/yala_leopard_safari.png",
+    badge: "WILDLIFE",
+    rating: "4.9",
+    reviews: 112,
+    highlights: ["Yala National Park 4x4 Jeep Safari", "Spot Leopards, Elephants & Sloth Bears", "Luxury Glamping Experience"],
+    summary: "The highest leopard density on earth & luxury tented camps",
     itinerary: [
       "Arrive, transfer to Udawalawe, visit the Elephant Transit Home.",
       "Full-day 4x4 jeep safari in Yala National Park (morning & evening game drives).",
@@ -89,13 +101,16 @@ const TOURS = [
   {
     id: 'luxury-honeymoon',
     name: "Luxury Honeymoon & Island Indulgence",
-    duration: "8D/7N",
+    duration: "8 Days / 7 Nights",
     days: 8,
     category: "Luxury & Romance",
     price: 1650,
-    grad: "grad-5",
-    highlights: ["Tea Trails Candlelight Dinner", "Private Helicopter Option", "Couples Spa", "Private Beach Cabana"],
-    summary: "An eight-day indulgence across the island's most romantic settings, curated for couples in search of the extraordinary.",
+    image: "images/luxury_honeymoon_villa.png",
+    badge: "ROMANCE",
+    rating: "5.0",
+    reviews: 84,
+    highlights: ["Tea Trails Scenic Candlelight Dinner", "Couples Spa & Wellness Retreat", "Private Beach Cabana Stay"],
+    summary: "An eight-day indulgence across the island's most romantic settings",
     itinerary: [
       "Arrive Colombo, optional private helicopter transfer to the hill country.",
       "Tea Trails bungalow stay, candlelight dinner overlooking the estate.",
@@ -106,7 +121,27 @@ const TOURS = [
       "Full day of leisure, optional snorkelling or whale watching.",
       "Farewell breakfast, transfer to Colombo for departure."
     ],
-    includes: ["Private luxury vehicle (helicopter transfer optional, at supplement)", "5-star boutique & tea bungalow accommodation", "Daily breakfast, one candlelight dinner", "Private beach cabana access", "Couples spa treatment", "Private temple ceremony access"]
+    includes: ["Private luxury vehicle", "5-star boutique & tea bungalow accommodation", "Daily breakfast, one candlelight dinner", "Private beach cabana access", "Couples spa treatment", "Private temple ceremony access"]
+  },
+  {
+    id: 'galle-heritage',
+    name: "Galle Fort & Coastal Heritage Explorer",
+    duration: "3 Days / 2 Nights",
+    days: 3,
+    category: "Cultural",
+    price: 450,
+    image: "images/galle_dutch_fort.png",
+    badge: "HERITAGE",
+    rating: "4.8",
+    reviews: 62,
+    highlights: ["Guided Walk Through UNESCO Galle Fort", "Stay in a Restored Colonial Villa", "Traditional Southern Cooking Class"],
+    summary: "Discover colonial history and vibrant coastal culture",
+    itinerary: [
+      "Arrive, transfer to Galle, check into a restored Dutch colonial villa.",
+      "Guided walking tour of the fort's ramparts, museums, and hidden alleys.",
+      "Morning cooking class, afternoon at leisure, transfer to Colombo."
+    ],
+    includes: ["Private A/C vehicle", "Colonial villa accommodation", "Daily breakfast", "Expert local guide in Galle", "Cooking class"]
   }
 ];
 
@@ -179,21 +214,22 @@ function initLazyBg() {
 /* ---------- Package card rendering ---------- */
 function pkgCardHTML(t) {
   return `
-  <article class="pkg-card reveal-up" data-category="${t.category}" data-price="${t.price}" data-days="${t.days}">
-    <div class="pkg-media ${t.grad}">
-      <span class="pkg-cat">${t.category}</span>
-      <span class="pkg-days">${t.duration}</span>
+  <article class="tour-card-new reveal-up" data-category="${t.category}" data-price="${t.price}" data-days="${t.days}">
+    <div class="tour-card-img-wrap">
+      <img src="${t.image}" alt="${t.name}">
+      <div class="tour-badge-top">${t.badge}</div>
+      <div class="tour-price-badge">$${t.price} <span>/ person</span></div>
     </div>
-    <div class="pkg-body">
-      <h3>${t.name}</h3>
-      <p style="font-size:0.9rem;color:var(--text-muted)">${t.summary}</p>
-      <div class="pkg-highlights">${t.highlights.slice(0,3).map(h => `<span>${h}</span>`).join('')}</div>
-      <div class="pkg-foot">
-        <div class="pkg-price">${fmtUSD(t.price)}<br><small>per person, land only</small></div>
+    <div class="tour-card-body">
+      <div class="tour-meta">
+        <span style="display:flex;align-items:center;gap:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ${t.duration}</span>
+        <span class="tour-meta-stars">★ ${t.rating} <span>(${t.reviews})</span></span>
       </div>
-      <div class="pkg-actions">
-        <button class="btn btn-navy btn-sm btn-block" data-quickview="${t.id}">Quick View</button>
-      </div>
+      <h3 style="cursor:pointer" data-quickview="${t.id}">${t.name}</h3>
+      <p class="sub">${t.summary}</p>
+      <ul class="tour-includes">
+        ${t.highlights.slice(0,3).map(h => `<li>${h}</li>`).join('')}
+      </ul>
     </div>
   </article>`;
 }
@@ -228,11 +264,21 @@ function initTourFilters() {
   if (!grid) return;
   renderPackages(grid, TOURS);
 
+  const pills = $$('.filter-pill-btn');
+  pills.forEach(btn => btn.addEventListener('click', () => {
+    pills.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const cat = btn.dataset.category;
+    let list = cat === 'All' ? TOURS : TOURS.filter(t => t.category === cat);
+    renderPackages(grid, list);
+  }));
+
+  // Support legacy dropdown if it exists (e.g. on old tours page)
   const catSel = $('#filter-category');
   const sortSel = $('#filter-sort');
   const countEl = $('#result-count');
 
-  function apply() {
+  function applyLegacy() {
     let list = [...TOURS];
     if (catSel && catSel.value !== 'All') list = list.filter(t => t.category === catSel.value);
     if (sortSel) {
@@ -243,8 +289,7 @@ function initTourFilters() {
     renderPackages(grid, list);
     if (countEl) countEl.textContent = `${list.length} tour${list.length !== 1 ? 's' : ''} found`;
   }
-  [catSel, sortSel].forEach(el => el && el.addEventListener('change', apply));
-  apply();
+  [catSel, sortSel].forEach(el => el && el.addEventListener('change', applyLegacy));
 }
 
 /* ---------- Quick-view modal ---------- */
