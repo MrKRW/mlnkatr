@@ -10,7 +10,31 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
-<style>.avatar-1{background:linear-gradient(135deg,#0b3d91,#38bdf8)}.avatar-2{background:linear-gradient(135deg,#0a2540,#0ea5e9)}.avatar-3{background:linear-gradient(135deg,#7c2d12,#0b3d91)}.avatar-4{background:linear-gradient(135deg,#14532d,#0b3d91)}</style>
+<style>
+.avatar-1{background:linear-gradient(135deg,#0b3d91,#38bdf8)}.avatar-2{background:linear-gradient(135deg,#0a2540,#0ea5e9)}.avatar-3{background:linear-gradient(135deg,#7c2d12,#0b3d91)}.avatar-4{background:linear-gradient(135deg,#14532d,#0b3d91)}
+.testimonials-grid { display: flex; gap: 24px; overflow-x: auto; padding-bottom: 24px; scroll-snap-type: x mandatory; margin-top: 20px; }
+.testimonials-grid::-webkit-scrollbar { display: none; }
+.testimonial-card-new { flex: 0 0 calc(33.333% - 16px); background: #fdfaf6; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; position: relative; scroll-snap-align: start; }
+@media (max-width: 900px) { .testimonial-card-new { flex: 0 0 calc(50% - 12px); } }
+@media (max-width: 600px) { .testimonial-card-new { flex: 0 0 100%; } }
+.t-card-header { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+.t-avatar { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.1rem; }
+.t-avatar.dp { background: #b18ec4; }
+.t-avatar.lt { background: #e03c86; }
+.t-avatar.rk { background: #e67525; }
+.t-meta h4 { font-family: var(--font-body); font-size: 1.05rem; color: var(--deep-blue); margin-bottom: 2px; font-weight: 700; }
+.t-meta p { font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; gap: 4px; margin: 0; }
+.t-quote-icon { position: absolute; top: 32px; right: 32px; color: #fbd38d; }
+.t-stars { color: #fbbf24; font-size: 1.1rem; margin-bottom: 16px; letter-spacing: 2px; }
+.t-text { font-size: 0.95rem; color: #4a5568; font-style: italic; line-height: 1.6; flex-grow: 1; margin-bottom: 24px; }
+.t-badge { display: inline-flex; align-items: center; gap: 6px; background: #fef3c7; color: #d97706; font-size: 0.75rem; font-weight: 700; padding: 6px 12px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.05em; align-self: flex-start; }
+.t-controls { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 12px; }
+.t-btn { width: 44px; height: 44px; border-radius: 50%; background: white; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border: none; color: var(--deep-blue); transition: all 0.2s ease; cursor: pointer; }
+.t-btn:hover { background: var(--deep-blue); color: white; }
+.t-dots { display: flex; gap: 8px; align-items: center; }
+.t-dot { width: 8px; height: 8px; border-radius: 50%; background: #cbd5e1; border: none; cursor: pointer; padding: 0; transition: all 0.3s ease; }
+.t-dot.active { width: 24px; border-radius: 4px; background: var(--deep-blue); }
+</style>
 </head>
 <body>
 
@@ -134,11 +158,74 @@
   </div>
 </section>
 
-<section class="section">
+<section class="section" style="background: #f5ede4;">
   <div class="container">
-    <div class="cta-banner reveal-up">
-      <div><h2>Let's design your <span class="script-text">Sri Lanka</span></h2><p>Tell us what draws you here, and we'll take it from there.</p></div>
-      <button class="btn btn-primary" data-open="plan-trip">Plan My Trip</button>
+    <div class="testimonials-slider-new">
+      <div class="testimonials-grid">
+        <div class="testimonial-card-new reveal-up">
+          <div class="t-card-header">
+            <div class="t-avatar dp">DP</div>
+            <div class="t-meta">
+              <h4>David & Priya Osei</h4>
+              <p><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Toronto, Canada</p>
+            </div>
+            <div class="t-quote-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+            </div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+          <p class="t-text">Planning from Canada was seamless — Maha Lanka's team responded within hours every time. The Kandy cultural show, Temple of the Tooth visit, and whale-watching boat trip were highlights I'll cherish forever.</p>
+          <div class="t-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> VERIFIED TRAVELER
+          </div>
+        </div>
+
+        <div class="testimonial-card-new reveal-up" style="transition-delay: 0.1s">
+          <div class="t-card-header">
+            <div class="t-avatar lt">LT</div>
+            <div class="t-meta">
+              <h4>Léa Tremblay</h4>
+              <p><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Paris, France</p>
+            </div>
+            <div class="t-quote-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+            </div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+          <p class="t-text">I travelled solo for two weeks and felt completely safe and cared for the entire time. The luxury tuk-tuk tour through Galle Fort, the stilt fishermen at sunrise — Maha Lanka curated magic moments I never would have found alone.</p>
+          <div class="t-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> VERIFIED TRAVELER
+          </div>
+        </div>
+
+        <div class="testimonial-card-new reveal-up" style="transition-delay: 0.2s">
+          <div class="t-card-header">
+            <div class="t-avatar rk">RK</div>
+            <div class="t-meta">
+              <h4>Ravi & Kamala Sharma</h4>
+              <p><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Mumbai, India</p>
+            </div>
+            <div class="t-quote-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+            </div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+          <p class="t-text">From the Nine Arch Bridge train ride to surfing lessons in Arugam Bay, every day was a new adventure. The team remembered small details we mentioned months ago — a welcome fruit basket, our favourite Ceylon tea. Remarkable attention.</p>
+          <div class="t-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> VERIFIED TRAVELER
+          </div>
+        </div>
+      </div>
+
+      <div class="t-controls">
+        <button class="t-btn t-prev" aria-label="Previous"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <div class="t-dots">
+          <button class="t-dot active" aria-label="Slide 1"></button>
+          <button class="t-dot" aria-label="Slide 2"></button>
+          <button class="t-dot" aria-label="Slide 3"></button>
+        </div>
+        <button class="t-btn t-next" aria-label="Next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+      </div>
     </div>
   </div>
 </section>

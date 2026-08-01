@@ -625,6 +625,138 @@ function initTourSlider() {
   }
 }
 
+/* ---------- New Testimonials Slider ---------- */
+function initTestimonialsSliderNew() {
+  const container = document.querySelector('.testimonials-slider-new');
+  if (!container) return;
+
+  const grid = container.querySelector('.testimonials-grid');
+  const originalCards = Array.from(grid.querySelectorAll('.testimonial-card-new'));
+  const prevBtn = container.querySelector('.t-prev');
+  const nextBtn = container.querySelector('.t-next');
+  const dots = Array.from(container.querySelectorAll('.t-dot'));
+  
+  if (originalCards.length === 0) return;
+
+  let currentIndex = 0;
+  const total = originalCards.length;
+  let autoSlide;
+  let isTransitioning = false;
+
+  // Clone cards to create overflow (so scrollLeft works when 3 cards fit exactly)
+  // Add two extra sets (one before conceptually, one after)
+  originalCards.forEach(card => grid.appendChild(card.cloneNode(true)));
+  originalCards.forEach(card => grid.appendChild(card.cloneNode(true)));
+
+  const allCards = Array.from(grid.querySelectorAll('.testimonial-card-new'));
+  
+  // Make sure clones are visible (bypassing scroll-reveal opacity: 0)
+  allCards.forEach(card => card.classList.add('in-view'));
+
+  function updateDots() {
+    dots.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
+  }
+
+  function getScrollLeftForCard(index) {
+    const card = allCards[index];
+    return card.offsetLeft - grid.offsetLeft;
+  }
+
+  function goToSlide(index, smooth = true) {
+    const targetIndex = total + index; // Use the middle set
+    grid.scrollTo({
+      left: getScrollLeftForCard(targetIndex),
+      behavior: smooth ? 'smooth' : 'auto'
+    });
+    currentIndex = index;
+    updateDots();
+  }
+
+  // Initial setup: silently jump to the middle set
+  setTimeout(() => {
+    grid.style.scrollSnapType = 'none';
+    goToSlide(0, false);
+    setTimeout(() => grid.style.scrollSnapType = 'x mandatory', 50);
+  }, 100);
+
+  function nextSlide() {
+    if (isTransitioning) return;
+    let nextIndex = currentIndex + 1;
+    
+    if (nextIndex >= total) {
+      // Smooth scroll to the first card of the third set
+      isTransitioning = true;
+      grid.scrollTo({ left: getScrollLeftForCard(total * 2), behavior: 'smooth' });
+      currentIndex = 0;
+      updateDots();
+      // Silently reset back to middle set after transition
+      setTimeout(() => {
+        grid.style.scrollSnapType = 'none';
+        goToSlide(0, false);
+        setTimeout(() => { grid.style.scrollSnapType = 'x mandatory'; isTransitioning = false; }, 50);
+      }, 600);
+    } else {
+      goToSlide(nextIndex, true);
+    }
+  }
+
+  function prevSlide() {
+    if (isTransitioning) return;
+    let prevIndex = currentIndex - 1;
+    
+    if (prevIndex < 0) {
+      // Smooth scroll to the last card of the first set
+      isTransitioning = true;
+      grid.scrollTo({ left: getScrollLeftForCard(total - 1), behavior: 'smooth' });
+      currentIndex = total - 1;
+      updateDots();
+      // Silently reset back to middle set after transition
+      setTimeout(() => {
+        grid.style.scrollSnapType = 'none';
+        goToSlide(total - 1, false);
+        setTimeout(() => { grid.style.scrollSnapType = 'x mandatory'; isTransitioning = false; }, 50);
+      }, 600);
+    } else {
+      goToSlide(prevIndex, true);
+    }
+  }
+
+  function resetTimer() {
+    clearInterval(autoSlide);
+    autoSlide = setInterval(nextSlide, 4500);
+  }
+
+  if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); resetTimer(); });
+  if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); resetTimer(); });
+  
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      goToSlide(i, true);
+      resetTimer();
+    });
+  });
+
+  // Handle manual swipe/scroll to keep dots updated
+  grid.addEventListener('scroll', () => {
+    if (isTransitioning) return;
+    let minDiff = Infinity;
+    let closestIndex = currentIndex;
+    allCards.forEach((card, i) => {
+      const diff = Math.abs((card.offsetLeft - grid.offsetLeft) - grid.scrollLeft);
+      if (diff < minDiff) {
+        minDiff = diff;
+        closestIndex = i % total;
+      }
+    });
+    if (currentIndex !== closestIndex) {
+      currentIndex = closestIndex;
+      updateDots();
+    }
+  }, { passive: true });
+
+  resetTimer();
+}
+
 /* ---------- Init ---------- */
 document.addEventListener('DOMContentLoaded', () => {
   initHeader();
@@ -644,4 +776,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initNewsletter();
   initHeroCarousel();
   initTourSlider();
+  initTestimonialsSliderNew();
 });
