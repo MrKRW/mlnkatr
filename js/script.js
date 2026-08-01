@@ -1,0 +1,531 @@
+/* ==========================================================================
+   Maha Lanka Tours — shared script.js (vanilla ES6+)
+   Covers: header scroll state, mobile nav, scroll reveal, tour data,
+   category tabs / filters, quick-view modal, plan-my-trip stepper,
+   itinerary cost estimator, testimonials carousel, hero search widget,
+   contact + booking form simulation, newsletter signup.
+   ========================================================================== */
+
+/* ---------- Shared tour package data ---------- */
+const TOURS = [
+  {
+    id: 'royal-cultural',
+    name: "The Royal Cultural Heritage Tour",
+    duration: "6D/5N",
+    days: 6,
+    category: "Cultural",
+    price: 850,
+    grad: "grad-1",
+    highlights: ["Sigiriya Rock", "Dambulla Caves", "Temple of the Tooth", "Polonnaruwa", "Minneriya Safari"],
+    summary: "A journey through 2,000 years of Sri Lankan civilisation — ancient citadels, sacred temples and elephant gatherings.",
+    itinerary: [
+      "Arrive Colombo, private transfer to Sigiriya, evening at leisure.",
+      "Climb the Sigiriya rock fortress and explore the frescoes and water gardens.",
+      "Dambulla Cave Temple, then onward to Polonnaruwa's ancient ruins.",
+      "Minneriya National Park jeep safari for the elephant gathering.",
+      "Kandy city tour and evening ceremony at the Temple of the Sacred Tooth Relic.",
+      "Leisurely morning, transfer to Colombo for departure."
+    ],
+    includes: ["Private A/C vehicle throughout", "Boutique heritage accommodation", "Daily breakfast & dinner", "English-speaking chauffeur guide", "All entrance permits", "Elephant gathering jeep safari"]
+  },
+  {
+    id: 'ella-highlands',
+    name: "Ella & Hill Country Highlands Escape",
+    duration: "5D/4N",
+    days: 5,
+    category: "Adventure & Nature",
+    price: 720,
+    grad: "grad-2",
+    highlights: ["Kandy–Ella Train", "Nine Arch Bridge", "Little Adam's Peak", "Tea Plantations", "Ravana Falls"],
+    summary: "Misty hills, emerald tea terraces and the most scenic train ride in Asia through Sri Lanka's highlands.",
+    itinerary: [
+      "Arrive, transfer to Kandy, riverside dinner and rest.",
+      "Board the iconic Kandy–Ella scenic train through tea country.",
+      "Sunrise hike up Little Adam's Peak and visit the Nine Arch Bridge.",
+      "Guided tea plantation & factory tour, tasting session included.",
+      "Ravana Waterfalls, then transfer to Colombo for departure."
+    ],
+    includes: ["Private A/C vehicle & 2nd-class reserved train tickets", "Boutique hill-country accommodation", "Daily breakfast & dinner", "Chauffeur guide", "Tea factory tour & tasting", "Hiking guide for Little Adam's Peak"]
+  },
+  {
+    id: 'southern-paradise',
+    name: "Southern Paradise & Blue Whale Safari",
+    duration: "7D/6N",
+    days: 7,
+    category: "Beach & Wildlife",
+    price: 980,
+    grad: "grad-3",
+    highlights: ["Mirissa Whale Watching", "Galle Fort Sunset", "Bentota Water Sports", "Unawatuna Beach", "Turtle Hatchery"],
+    summary: "Golden coastlines, colonial ramparts and the world's largest mammal in the waters off Mirissa.",
+    itinerary: [
+      "Arrive Colombo, transfer to Bentota, water sports session.",
+      "Free morning, transfer to Galle, sunset walk on the fort ramparts.",
+      "Early blue whale watching boat excursion from Mirissa.",
+      "Unawatuna beach day and visit to a coastal turtle hatchery.",
+      "Snorkelling excursion and coastal village exploration.",
+      "Coastal relaxation day, spa treatment included.",
+      "Transfer to Colombo for departure."
+    ],
+    includes: ["Private A/C vehicle throughout", "Beachfront boutique villas", "Daily breakfast & dinner", "Whale watching boat charter", "Turtle hatchery entry", "One spa treatment"]
+  },
+  {
+    id: 'yala-wildlife',
+    name: "Yala Wildlife & Wild Ceylon Odyssey",
+    duration: "4D/3N",
+    days: 4,
+    category: "Wildlife & Safari",
+    price: 690,
+    grad: "grad-4",
+    highlights: ["Yala 4x4 Safaris", "Leopards & Sloth Bears", "Udawalawe Elephants", "Luxury Glamping"],
+    summary: "The highest leopard density on earth, roaming elephant herds, and nights under canvas in luxury tented camps.",
+    itinerary: [
+      "Arrive, transfer to Udawalawe, visit the Elephant Transit Home.",
+      "Full-day 4x4 jeep safari in Yala National Park (morning & evening game drives).",
+      "Second Yala safari at dawn tracking leopards and sloth bears, luxury glamping overnight.",
+      "Morning at leisure, transfer to Colombo for departure."
+    ],
+    includes: ["4x4 safari jeep with tracker guide", "Luxury glamping & lodge accommodation", "Daily breakfast & dinner", "Two Yala National Park safaris", "Udawalawe Elephant Transit Home entry", "All park permits"]
+  },
+  {
+    id: 'luxury-honeymoon',
+    name: "Luxury Honeymoon & Island Indulgence",
+    duration: "8D/7N",
+    days: 8,
+    category: "Luxury & Romance",
+    price: 1650,
+    grad: "grad-5",
+    highlights: ["Tea Trails Candlelight Dinner", "Private Helicopter Option", "Couples Spa", "Private Beach Cabana"],
+    summary: "An eight-day indulgence across the island's most romantic settings, curated for couples in search of the extraordinary.",
+    itinerary: [
+      "Arrive Colombo, optional private helicopter transfer to the hill country.",
+      "Tea Trails bungalow stay, candlelight dinner overlooking the estate.",
+      "Guided nature walk and couples spa treatment.",
+      "Transfer to Kandy, private Temple of the Tooth evening ceremony.",
+      "Scenic transfer to the south coast, private beach cabana check-in.",
+      "Sunset catamaran cruise along the coastline.",
+      "Full day of leisure, optional snorkelling or whale watching.",
+      "Farewell breakfast, transfer to Colombo for departure."
+    ],
+    includes: ["Private luxury vehicle (helicopter transfer optional, at supplement)", "5-star boutique & tea bungalow accommodation", "Daily breakfast, one candlelight dinner", "Private beach cabana access", "Couples spa treatment", "Private temple ceremony access"]
+  }
+];
+
+/* ---------- Utilities ---------- */
+const $ = (sel, ctx = document) => ctx.querySelector(sel);
+const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
+const fmtUSD = (n) => `$${n.toLocaleString('en-US')}`;
+
+/* ---------- Header scroll + mobile nav ---------- */
+function initHeader() {
+  const header = $('.site-header');
+  if (!header) return;
+  const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 12);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  const burger = $('.hamburger');
+  const mobileNav = $('.mobile-nav');
+  if (burger && mobileNav) {
+    burger.addEventListener('click', () => {
+      const open = burger.classList.toggle('is-open');
+      mobileNav.classList.toggle('is-open', open);
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+    $$('.mobile-nav a').forEach(a => a.addEventListener('click', () => {
+      burger.classList.remove('is-open');
+      mobileNav.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }));
+  }
+
+  // Mark active nav link
+  const path = location.pathname.split('/').pop() || 'index.html';
+  $$('.main-nav a, .mobile-nav a').forEach(a => {
+    if (a.getAttribute('href') === path) a.classList.add('active');
+  });
+}
+
+/* ---------- Scroll reveal ---------- */
+function initReveal() {
+  const items = $$('.reveal-up, .pkg-card');
+  if (!items.length) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view', 'reveal');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  items.forEach(el => io.observe(el));
+}
+
+/* ---------- Lazy load background images (data-bg) ---------- */
+function initLazyBg() {
+  const items = $$('[data-bg]');
+  if (!items.length) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.backgroundImage = entry.target.dataset.bg;
+        io.unobserve(entry.target);
+      }
+    });
+  }, { rootMargin: '200px' });
+  items.forEach(el => io.observe(el));
+}
+
+/* ---------- Package card rendering ---------- */
+function pkgCardHTML(t) {
+  return `
+  <article class="pkg-card reveal-up" data-category="${t.category}" data-price="${t.price}" data-days="${t.days}">
+    <div class="pkg-media ${t.grad}">
+      <span class="pkg-cat">${t.category}</span>
+      <span class="pkg-days">${t.duration}</span>
+    </div>
+    <div class="pkg-body">
+      <h3>${t.name}</h3>
+      <p style="font-size:0.9rem;color:var(--text-muted)">${t.summary}</p>
+      <div class="pkg-highlights">${t.highlights.slice(0,3).map(h => `<span>${h}</span>`).join('')}</div>
+      <div class="pkg-foot">
+        <div class="pkg-price">${fmtUSD(t.price)}<br><small>per person, land only</small></div>
+      </div>
+      <div class="pkg-actions">
+        <button class="btn btn-navy btn-sm btn-block" data-quickview="${t.id}">Quick View</button>
+      </div>
+    </div>
+  </article>`;
+}
+
+function renderPackages(container, list) {
+  if (!container) return;
+  container.innerHTML = list.map(pkgCardHTML).join('') || `<p style="grid-column:1/-1;text-align:center;color:var(--text-muted)">No tours match those filters — try widening your search.</p>`;
+  initReveal();
+  bindQuickViewButtons();
+}
+
+/* ---------- Tabs (homepage featured) ---------- */
+function initTabs() {
+  const tabBar = $('.tab-bar');
+  const grid = $('#featured-grid');
+  if (!tabBar || !grid) return;
+  renderPackages(grid, TOURS.slice(0, 5));
+  tabBar.addEventListener('click', (e) => {
+    const btn = e.target.closest('.tab-btn');
+    if (!btn) return;
+    $$('.tab-btn', tabBar).forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const cat = btn.dataset.category;
+    const filtered = cat === 'All' ? TOURS : TOURS.filter(t => t.category === cat);
+    renderPackages(grid, filtered);
+  });
+}
+
+/* ---------- Full filter/sort (tours.html) ---------- */
+function initTourFilters() {
+  const grid = $('#tours-grid');
+  if (!grid) return;
+  renderPackages(grid, TOURS);
+
+  const catSel = $('#filter-category');
+  const sortSel = $('#filter-sort');
+  const countEl = $('#result-count');
+
+  function apply() {
+    let list = [...TOURS];
+    if (catSel && catSel.value !== 'All') list = list.filter(t => t.category === catSel.value);
+    if (sortSel) {
+      if (sortSel.value === 'price-asc') list.sort((a,b) => a.price - b.price);
+      if (sortSel.value === 'price-desc') list.sort((a,b) => b.price - a.price);
+      if (sortSel.value === 'duration') list.sort((a,b) => a.days - b.days);
+    }
+    renderPackages(grid, list);
+    if (countEl) countEl.textContent = `${list.length} tour${list.length !== 1 ? 's' : ''} found`;
+  }
+  [catSel, sortSel].forEach(el => el && el.addEventListener('change', apply));
+  apply();
+}
+
+/* ---------- Quick-view modal ---------- */
+function bindQuickViewButtons() {
+  $$('[data-quickview]').forEach(btn => {
+    btn.addEventListener('click', () => openQuickView(btn.dataset.quickview));
+  });
+}
+
+function openQuickView(id) {
+  const t = TOURS.find(x => x.id === id);
+  if (!t) return;
+  const overlay = $('#quickview-overlay');
+  if (!overlay) return;
+  $('#qv-title', overlay).textContent = t.name;
+  $('#qv-media', overlay).className = `modal-hero ${t.grad}`;
+  $('#qv-summary', overlay).textContent = t.summary;
+  $('#qv-itinerary', overlay).innerHTML = t.itinerary.map((step, i) =>
+    `<div class="itinerary-day"><div class="day-num">D${i+1}</div><p>${step}</p></div>`).join('');
+  $('#qv-includes', overlay).innerHTML = t.includes.map(i => `<li>${i}</li>`).join('');
+  $('#qv-price', overlay).textContent = `${fmtUSD(t.price)} per person`;
+  $('#qv-book', overlay).href = `contact.html?tour=${encodeURIComponent(t.name)}`;
+  openModal(overlay);
+}
+
+/* ---------- Generic modal open/close ---------- */
+function openModal(overlay) {
+  overlay.classList.add('is-open');
+  overlay.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  const closeBtn = $('.modal-close', overlay);
+  closeBtn && closeBtn.focus();
+}
+function closeModal(overlay) {
+  overlay.classList.remove('is-open');
+  overlay.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+function initModalDismiss() {
+  $$('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay || e.target.closest('.modal-close')) closeModal(overlay);
+    });
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') $$('.modal-overlay.is-open').forEach(closeModal);
+  });
+}
+
+/* ---------- Plan My Trip modal (multi-step) ---------- */
+function initPlanMyTrip() {
+  const trigger = $$('[data-open="plan-trip"]');
+  const overlay = $('#plan-trip-overlay');
+  if (!overlay || !trigger.length) return;
+
+  const state = { interest: null, pace: null, dates: '', travelers: 2, name: '', email: '' };
+  let stepIndex = 0;
+  const steps = $$('.step', overlay);
+  const dots = $$('.stepper .dot', overlay);
+
+  function render() {
+    steps.forEach((s, i) => s.classList.toggle('active', i === stepIndex));
+    dots.forEach((d, i) => d.classList.toggle('done', i <= stepIndex));
+  }
+
+  trigger.forEach(t => t.addEventListener('click', () => { stepIndex = 0; render(); openModal(overlay); }));
+
+  $$('.option-card', overlay).forEach(card => {
+    card.addEventListener('click', () => {
+      const group = card.dataset.group;
+      $$(`.option-card[data-group="${group}"]`, overlay).forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      state[group] = card.dataset.value;
+    });
+  });
+
+  $$('[data-step="next"]', overlay).forEach(btn => btn.addEventListener('click', () => {
+    if (stepIndex < steps.length - 1) { stepIndex++; render(); }
+    if (stepIndex === steps.length - 1) buildSummary();
+  }));
+  $$('[data-step="back"]', overlay).forEach(btn => btn.addEventListener('click', () => {
+    if (stepIndex > 0) { stepIndex--; render(); }
+  }));
+
+  function buildSummary() {
+    const summaryEl = $('#plan-summary', overlay);
+    if (!summaryEl) return;
+    const name = $('#plan-name', overlay)?.value || 'Traveller';
+    summaryEl.innerHTML = `
+      <p><strong>Interest:</strong> ${state.interest || 'Not specified'}</p>
+      <p><strong>Pace:</strong> ${state.pace || 'Not specified'}</p>
+      <p><strong>Thanks, ${name}</strong> — our concierge team will reach out within 24 hours with a tailor-made itinerary.</p>
+    `;
+  }
+
+  const form = $('#plan-trip-form', overlay);
+  form && form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const successEl = $('#plan-success', overlay);
+    successEl && successEl.classList.add('show');
+    setTimeout(() => closeModal(overlay), 1800);
+  });
+}
+
+/* ---------- Itinerary Cost Estimator ---------- */
+function initEstimator() {
+  const root = $('#estimator');
+  if (!root) return;
+
+  const lengthInput = $('#est-length', root);
+  const lengthOut = $('#est-length-out', root);
+  const groupInput = $('#est-group', root);
+  const groupOut = $('#est-group-out', root);
+  const tierButtons = $$('.pill-select button', root);
+  const priceOut = $('#est-price', root);
+  const breakdown = $('#est-breakdown', root);
+
+  const tierRates = { standard: 90, deluxe: 150, luxury: 260 };
+  let tier = 'deluxe';
+
+  function calc() {
+    const days = parseInt(lengthInput.value, 10);
+    const group = parseInt(groupInput.value, 10);
+    const rate = tierRates[tier];
+    const perPersonPerDay = rate;
+    const groupDiscount = group >= 6 ? 0.9 : group >= 4 ? 0.95 : 1;
+    const guideFee = 35 * days;
+    const subtotal = perPersonPerDay * days * group * groupDiscount;
+    const total = Math.round(subtotal + guideFee);
+    const perPerson = Math.round(total / group);
+
+    lengthOut.textContent = `${days} day${days > 1 ? 's' : ''}`;
+    groupOut.textContent = `${group} traveller${group > 1 ? 's' : ''}`;
+    priceOut.innerHTML = `${fmtUSD(total).replace('$','')}<sup></sup>`;
+    priceOut.textContent = fmtUSD(total);
+    breakdown.innerHTML = `
+      <div><span>Accommodation & touring (${tier})</span><span>${fmtUSD(Math.round(subtotal))}</span></div>
+      <div><span>Chauffeur guide & fuel</span><span>${fmtUSD(guideFee)}</span></div>
+      <div><span>Group discount applied</span><span>${groupDiscount < 1 ? `-${Math.round((1-groupDiscount)*100)}%` : '—'}</span></div>
+      <div><strong>Per person</strong><strong>${fmtUSD(perPerson)}</strong></div>
+    `;
+  }
+
+  tierButtons.forEach(btn => btn.addEventListener('click', () => {
+    tierButtons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    tier = btn.dataset.tier;
+    calc();
+  }));
+  [lengthInput, groupInput].forEach(el => el && el.addEventListener('input', calc));
+  calc();
+}
+
+/* ---------- Testimonials carousel ---------- */
+function initCarousel() {
+  const carousel = $('.testimonial-carousel');
+  if (!carousel) return;
+  const slides = $$('.testimonial-slide', carousel);
+  const dots = $$('.carousel-dots button', carousel);
+  let index = 0;
+  let timer;
+
+  function show(i) {
+    slides.forEach((s, n) => s.classList.toggle('active', n === i));
+    dots.forEach((d, n) => d.classList.toggle('active', n === i));
+    index = i;
+  }
+  function next() { show((index + 1) % slides.length); }
+
+  dots.forEach((d, i) => d.addEventListener('click', () => { show(i); resetTimer(); }));
+  function resetTimer() { clearInterval(timer); timer = setInterval(next, 6000); }
+  show(0);
+  resetTimer();
+}
+
+/* ---------- Hero search widget ---------- */
+function initHeroSearch() {
+  const form = $('#hero-search');
+  if (!form) return;
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const params = new URLSearchParams(new FormData(form));
+    window.location.href = `tours.html?${params.toString()}`;
+  });
+}
+
+/* ---------- Forms (contact / booking) simulated submit ---------- */
+function initFormSim(formId, successId) {
+  const form = $(`#${formId}`);
+  if (!form) return;
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = $('button[type="submit"]', form);
+    const original = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    try {
+      // In production this posts to api/contact_submit.php or api/book_tour.php
+      await new Promise(res => setTimeout(res, 900));
+      $(`#${successId}`)?.classList.add('show');
+      form.reset();
+    } finally {
+      btn.disabled = false;
+      btn.textContent = original;
+    }
+  });
+}
+
+/* ---------- Prefill contact form tour field from query string ---------- */
+function initTourPrefill() {
+  const tourField = $('#contact-tour');
+  if (!tourField) return;
+  const params = new URLSearchParams(window.location.search);
+  const tour = params.get('tour');
+  if (tour) {
+    [...tourField.options].forEach(o => { if (o.textContent === tour) tourField.value = tour; });
+  }
+}
+
+/* ---------- Newsletter ---------- */
+function initNewsletter() {
+  $$('.newsletter-form').forEach(form => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = $('input', form);
+      const btn = $('button', form);
+      if (!input.value) return;
+      btn.textContent = 'Subscribed ✓';
+      input.value = '';
+      setTimeout(() => { btn.textContent = 'Subscribe'; }, 2500);
+    });
+  });
+}
+
+/* ---------- Hero Carousel ---------- */
+function initHeroCarousel() {
+  const carousel = document.getElementById('hero-carousel');
+  if (!carousel) return;
+
+  const cards = Array.from(carousel.querySelectorAll('.carousel-card'));
+  if (cards.length === 0) return;
+
+  let currentIndex = 0;
+
+  function updateCarousel() {
+    cards.forEach((card, i) => {
+      card.className = 'carousel-card';
+      
+      if (i === currentIndex) {
+        card.classList.add('active');
+      } else if (i === (currentIndex + 1) % cards.length) {
+        card.classList.add('next');
+      } else if (i === (currentIndex - 1 + cards.length) % cards.length) {
+        card.classList.add('prev');
+      }
+    });
+  }
+
+  updateCarousel();
+  setInterval(() => {
+    currentIndex = (currentIndex + 1) % cards.length;
+    updateCarousel();
+  }, 4000);
+}
+
+/* ---------- Init ---------- */
+document.addEventListener('DOMContentLoaded', () => {
+  initHeader();
+  initReveal();
+  initLazyBg();
+  initTabs();
+  initTourFilters();
+  bindQuickViewButtons();
+  initModalDismiss();
+  initPlanMyTrip();
+  initEstimator();
+  initCarousel();
+  initHeroSearch();
+  initFormSim('contact-form', 'contact-success');
+  initFormSim('booking-form', 'booking-success');
+  initTourPrefill();
+  initNewsletter();
+  initHeroCarousel();
+});

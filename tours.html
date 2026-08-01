@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tour Packages — Maha Lanka Tours</title>
+<meta name="description" content="Five curated luxury tour packages across Sri Lanka — cultural heritage, hill country, coastal wildlife, safari and honeymoon journeys.">
+<link rel="icon" href="images/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="brand">
+      <img src="images/mlankalogo_transparent.png" alt="Maha Lanka Tours Logo" class="brand-mark">
+      <span class="brand-name">Maha Lanka<span> Tours</span></span>
+    </a>
+    <nav class="main-nav" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="tours.html">Tour Packages</a>
+      <a href="destinations.html">Destinations</a>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact Us</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn btn-navy btn-sm" data-open="plan-trip">Plan My Trip</button>
+      <button class="hamburger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<nav class="mobile-nav" aria-label="Mobile">
+  <a href="index.html">Home</a>
+  <a href="tours.html">Tour Packages</a>
+  <a href="destinations.html">Destinations</a>
+  <a href="about.html">About Us</a>
+  <a href="contact.html">Contact Us</a>
+  <button class="btn btn-navy btn-block" data-open="plan-trip">Plan My Trip</button>
+</nav>
+
+<section class="page-hero">
+  <div class="container">
+    <p class="breadcrumbs"><a href="index.html">Home</a> / Tour Packages</p>
+    <p class="eyebrow">Signature Journeys</p>
+    <h1>Tour Packages</h1>
+    <p>Five fully-curated itineraries, each private, tailor-made and led by an expert chauffeur guide — from six-day cultural odysseys to eight-day honeymoon indulgences.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="filter-bar">
+      <div class="filter-group">
+        <label for="filter-category">Category</label>
+        <select id="filter-category">
+          <option value="All">All categories</option>
+          <option>Cultural</option>
+          <option>Adventure & Nature</option>
+          <option>Beach & Wildlife</option>
+          <option>Wildlife & Safari</option>
+          <option>Luxury & Romance</option>
+        </select>
+        <label for="filter-sort">Sort by</label>
+        <select id="filter-sort">
+          <option value="default">Featured order</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="duration">Duration: Shortest first</option>
+        </select>
+      </div>
+      <span class="result-count" id="result-count">5 tours found</span>
+    </div>
+    <div class="pkg-grid" id="tours-grid"></div>
+  </div>
+</section>
+
+<section class="section section--soft">
+  <div class="container">
+    <div class="cta-banner reveal-up">
+      <div>
+        <h2>Not seeing exactly what you're after?</h2>
+        <p>Every itinerary here can be adapted — extend, combine, or start from a blank page entirely.</p>
+      </div>
+      <button class="btn btn-primary" data-open="plan-trip">Plan My Trip</button>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="brand">
+          <img src="images/mlankalogo_transparent.png" alt="Maha Lanka Tours Logo" class="brand-mark">
+          <span>Maha Lanka Tours</span>
+        </a>
+        <p>Boutique luxury travel across Sri Lanka — tailor-made itineraries built on authenticity, sustainability and quiet expertise.</p>
+        <div class="social-row">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="Facebook">FB</a>
+          <a href="#" aria-label="YouTube">YT</a>
+        </div>
+        <p class="sustain-note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg> 100% carbon-neutral operations since 2019</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="tours.html">Tour Packages</a></li>
+          <li><a href="destinations.html">Destinations</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li>+94 11 234 5678</li>
+          <li>hello@mahalankatours.com</li>
+          <li>42 Galle Road, Colombo 03, Sri Lanka</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Newsletter</h4>
+        <p style="font-size:0.85rem">Seasonal itinerary ideas, twice a month.</p>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Your email" required aria-label="Email for newsletter">
+          <button class="btn btn-primary btn-sm" type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Maha Lanka Tours. All rights reserved.</span>
+      <span>Licensed Tour Operator — Sri Lanka Tourism Development Authority</span>
+    </div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="quickview-overlay" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Tour quick view">
+  <div class="modal">
+    <button class="modal-close" aria-label="Close">×</button>
+    <div class="modal-hero" id="qv-media"><h3 id="qv-title"></h3></div>
+    <div class="modal-body">
+      <p id="qv-summary" style="color:var(--text-muted)"></p>
+      <h4>Day-by-Day Itinerary</h4>
+      <div id="qv-itinerary"></div>
+      <h4>What's Included</h4>
+      <ul class="include-list" id="qv-includes"></ul>
+    </div>
+    <div class="modal-footer">
+      <span class="pkg-price" id="qv-price" style="margin-right:auto;align-self:center"></span>
+      <a href="contact.html" id="qv-book" class="btn btn-primary">Book Now</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="plan-trip-overlay" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Plan my trip">
+  <div class="modal">
+    <button class="modal-close" aria-label="Close">×</button>
+    <div class="modal-body">
+      <h3 style="margin-bottom:6px">Plan My Trip</h3>
+      <p style="color:var(--text-muted);margin-bottom:24px;font-size:0.9rem">A quick 3-step brief so our concierge can tailor your itinerary.</p>
+      <div class="stepper"><div class="dot done"></div><div class="dot"></div><div class="dot"></div></div>
+      <div class="step active">
+        <h4 style="margin-top:0">What draws you to Sri Lanka?</h4>
+        <div class="step-options">
+          <button type="button" class="option-card" data-group="interest" data-value="Culture & Heritage"><strong>Culture & Heritage</strong><span>Temples, ruins, ceremonies</span></button>
+          <button type="button" class="option-card" data-group="interest" data-value="Beach & Wildlife"><strong>Beach & Wildlife</strong><span>Coasts, whales, safaris</span></button>
+          <button type="button" class="option-card" data-group="interest" data-value="Hill Country"><strong>Hill Country</strong><span>Tea, trains, hikes</span></button>
+          <button type="button" class="option-card" data-group="interest" data-value="Honeymoon & Luxury"><strong>Honeymoon & Luxury</strong><span>Romance, indulgence</span></button>
+        </div>
+        <div class="step-nav"><span></span><button type="button" class="btn btn-navy" data-step="next">Continue</button></div>
+      </div>
+      <div class="step">
+        <h4 style="margin-top:0">What's your ideal pace?</h4>
+        <div class="step-options">
+          <button type="button" class="option-card" data-group="pace" data-value="Relaxed"><strong>Relaxed</strong><span>Few stops, more downtime</span></button>
+          <button type="button" class="option-card" data-group="pace" data-value="Balanced"><strong>Balanced</strong><span>A mix of activity & rest</span></button>
+          <button type="button" class="option-card" data-group="pace" data-value="Immersive"><strong>Immersive</strong><span>Packed days, many sights</span></button>
+          <button type="button" class="option-card" data-group="pace" data-value="Adventurous"><strong>Adventurous</strong><span>Hikes, safaris, activity-led</span></button>
+        </div>
+        <div class="step-nav"><button type="button" class="btn btn-ghost" data-step="back">Back</button><button type="button" class="btn btn-navy" data-step="next">Continue</button></div>
+      </div>
+      <div class="step">
+        <form id="plan-trip-form">
+          <h4 style="margin-top:0">A little about you</h4>
+          <div class="form-grid">
+            <div class="form-field full"><label for="plan-name">Full name</label><input type="text" id="plan-name" required></div>
+            <div class="form-field"><label for="plan-email">Email</label><input type="email" id="plan-email" required></div>
+            <div class="form-field"><label for="plan-dates">Approximate dates</label><input type="text" id="plan-dates" placeholder="e.g. March 2027"></div>
+          </div>
+          <div id="plan-summary" style="margin-top:18px;font-size:0.88rem;color:var(--text-muted)"></div>
+          <div class="step-nav"><button type="button" class="btn btn-ghost" data-step="back">Back</button><button type="submit" class="btn btn-primary">Send My Brief</button></div>
+          <div class="form-success" id="plan-success">Thank you — your travel brief has been sent to our concierge team.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
