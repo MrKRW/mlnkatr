@@ -1484,3 +1484,11 @@ html {
   box-shadow: 0 25px 40px rgba(0,0,0,0.12);
   z-index: 10;
 }
+
+/* --- PARALLAX HERO EFFECT --- */
+.hero, .page-hero, .about-hero, .hero-slideshow .slide {
+  background-attachment: fixed !important;
+  background-position: center center !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+}
