@@ -1340,7 +1340,7 @@ h1.script-title { font-family: 'Reey', cursive; font-weight: normal; font-size: 
 
 /* ---------- CTA Strip ---------- */
 .section-cta-strip {
-  padding: 80px 0 0 0;
+  padding: 80px 0 60px 0;
   background-color: #fff;
 }
 .cta-strip-card {
