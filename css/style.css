@@ -601,7 +601,7 @@ h1.script-title { font-family: 'Reey', cursive; font-weight: normal; font-size: 
   display: flex;
   align-items: center;
   justify-content: center;
-  background: url('../images/about_hero_bg.png') no-repeat center center / cover;
+  background: url('../images/slideshow1/jerry-kavan-i9eaAR4dWi8-unsplash.jpg') no-repeat center center / cover;
   text-align: center;
   padding-bottom: 120px;
 }
@@ -1444,4 +1444,43 @@ h1.script-title { font-family: 'Reey', cursive; font-weight: normal; font-size: 
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 30px;
+}
+
+/* --- SCROLL REVEAL & 3D ANIMATIONS --- */
+html {
+  scroll-behavior: smooth;
+}
+
+.reveal-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: opacity, transform;
+}
+.reveal-up.in-view, .reveal-up.reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 3D Hover Cards */
+.dest-card-large, .dest-card-small, .tour-card, .tour-card-new, .why-card, .option-card, .pkg-card {
+  transition: transform 0.4s ease, box-shadow 0.4s ease, opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+/* Ensure reveal-up transition doesn't override hover on cards */
+.reveal-up.dest-card-large, .reveal-up.dest-card-small, .reveal-up.tour-card, .reveal-up.tour-card-new, .reveal-up.why-card, .reveal-up.pkg-card {
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
+}
+
+/* When in view, switch transition back so hover is snappy */
+.reveal-up.in-view.dest-card-large, .reveal-up.in-view.dest-card-small, .reveal-up.in-view.tour-card, .reveal-up.in-view.tour-card-new, .reveal-up.in-view.why-card, .reveal-up.in-view.pkg-card,
+.reveal-up.reveal.dest-card-large, .reveal-up.reveal.dest-card-small, .reveal-up.reveal.tour-card, .reveal-up.reveal.tour-card-new, .reveal-up.reveal.why-card, .reveal-up.reveal.pkg-card {
+  transition: transform 0.4s ease, box-shadow 0.4s ease, opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.dest-card-large:hover, .dest-card-small:hover, .tour-card:hover, .tour-card-new:hover, .why-card:hover, .option-card:hover, .pkg-card:hover {
+  transform: translateY(-8px) scale(1.02) perspective(1000px) rotateX(3deg) rotateY(-3deg) !important;
+  box-shadow: 0 25px 40px rgba(0,0,0,0.12);
+  z-index: 10;
 }
