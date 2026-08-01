@@ -510,6 +510,67 @@ function initHeroCarousel() {
   }, 4000);
 }
 
+/* ---------- Tour Slider ---------- */
+function initTourSlider() {
+  const container = document.querySelector('.tour-cards-container');
+  if (!container) return;
+  const prevBtn = document.querySelector('.slider-btn.prev');
+  const nextBtn = document.querySelector('.slider-btn.next');
+
+  function slideNext() {
+    const cards = container.querySelectorAll('.tour-card');
+    if(cards.length === 0) return;
+    container.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+    const cardWidth = cards[0].offsetWidth;
+    container.style.transform = `translateX(calc(-50% - ${cardWidth + 30}px))`;
+    
+    cards.forEach(c => c.classList.remove('active'));
+    if(cards[3]) cards[3].classList.add('active'); 
+    
+    setTimeout(() => {
+      container.style.transition = 'none';
+      container.appendChild(cards[0]);
+      container.style.transform = 'translateX(-50%)';
+    }, 500);
+  }
+
+  function slidePrev() {
+    const cards = container.querySelectorAll('.tour-card');
+    if(cards.length === 0) return;
+    container.style.transition = 'none';
+    container.prepend(cards[cards.length - 1]);
+    const cardWidth = cards[0].offsetWidth;
+    container.style.transform = `translateX(calc(-50% - ${cardWidth + 30}px))`;
+    
+    void container.offsetWidth;
+    
+    container.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+    container.style.transform = 'translateX(-50%)';
+    
+    const newCards = container.querySelectorAll('.tour-card');
+    newCards.forEach(c => c.classList.remove('active'));
+    if(newCards[2]) newCards[2].classList.add('active');
+  }
+
+  let autoSlide = setInterval(slideNext, 3500);
+
+  if(nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      clearInterval(autoSlide);
+      slideNext();
+      autoSlide = setInterval(slideNext, 3500);
+    });
+  }
+  
+  if(prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      clearInterval(autoSlide);
+      slidePrev();
+      autoSlide = setInterval(slideNext, 3500);
+    });
+  }
+}
+
 /* ---------- Init ---------- */
 document.addEventListener('DOMContentLoaded', () => {
   initHeader();
@@ -528,4 +589,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initTourPrefill();
   initNewsletter();
   initHeroCarousel();
+  initTourSlider();
 });
