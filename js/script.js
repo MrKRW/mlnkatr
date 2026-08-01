@@ -215,24 +215,31 @@ function initLazyBg() {
 function pkgCardHTML(t) {
   return `
   <article class="tour-card-new reveal-up" data-category="${t.category}" data-price="${t.price}" data-days="${t.days}">
-    <div class="tour-card-img-wrap">
-      <img src="${t.image}" alt="${t.name}">
-      <div class="tour-badge-top">${t.badge}</div>
-      <div class="tour-price-badge">$${t.price} <span>/ person</span></div>
-    </div>
+    <a href="tour-detail.html?id=${t.id}" style="display:block;text-decoration:none;color:inherit;">
+      <div class="tour-card-img-wrap">
+        <img src="${t.image}" alt="${t.name}">
+        <div class="tour-badge-top">${t.badge}</div>
+        <div class="tour-price-badge">$${t.price} <span>/ person</span></div>
+      </div>
+    </a>
     <div class="tour-card-body">
       <div class="tour-meta">
         <span style="display:flex;align-items:center;gap:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ${t.duration}</span>
         <span class="tour-meta-stars">★ ${t.rating} <span>(${t.reviews})</span></span>
       </div>
-      <h3 style="cursor:pointer" data-quickview="${t.id}">${t.name}</h3>
+      <h3 style="cursor:pointer"><a href="tour-detail.html?id=${t.id}" style="color:inherit;text-decoration:none;">${t.name}</a></h3>
       <p class="sub">${t.summary}</p>
       <ul class="tour-includes">
         ${t.highlights.slice(0,3).map(h => `<li>${h}</li>`).join('')}
       </ul>
+      <div style="display:flex;gap:10px;margin-top:16px;padding-top:14px;border-top:1px solid var(--border-soft);">
+        <a href="tour-detail.html?id=${t.id}" class="btn btn-primary btn-sm" style="flex:1;justify-content:center;">View Details</a>
+        <button class="btn btn-ghost btn-sm" data-quickview="${t.id}" style="flex:1;">Quick View</button>
+      </div>
     </div>
   </article>`;
 }
+
 
 function renderPackages(container, list) {
   if (!container) return;

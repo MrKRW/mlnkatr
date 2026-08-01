@@ -891,6 +891,23 @@ h1.script-title { font-family: 'Reey', cursive; font-weight: normal; font-size: 
   }
 }
 
+@media (max-width: 600px) {
+  .hero-carousel {
+    width: 100%;
+    height: 320px;
+    justify-content: center;
+  }
+  .carousel-card.active {
+    width: 200px;
+    height: 280px;
+  }
+  .carousel-card.next {
+    width: 160px;
+    height: 240px;
+    transform: translateX(120px) scale(0.9);
+  }
+}
+
 /* ---------- Script Font & Typography ---------- */
 .script-text {
   font-family: 'Great Vibes', cursive;
@@ -1276,11 +1293,33 @@ h1.script-title { font-family: 'Reey', cursive; font-weight: normal; font-size: 
     height: 400px;
   }
   .tour-cards-container {
-    flex-direction: column;
+    flex-direction: row;
+    width: 100%;
+    left: 0;
+    transform: none;
+    align-items: stretch;
+    padding: 20px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 20px;
+    -webkit-overflow-scrolling: touch;
+    gap: 20px;
+  }
+  .tour-cards-container::-webkit-scrollbar {
+    display: none;
   }
   .tour-card {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) !important;
+    width: 280px;
+    max-width: none;
+    margin-bottom: 0;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+  }
+  .tour-card.active {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    z-index: 1;
   }
   .slider-btn {
     display: none;
@@ -1367,6 +1406,13 @@ h1.script-title { font-family: 'Reey', cursive; font-weight: normal; font-size: 
     text-align: center;
     padding: 40px 30px;
   }
+  .cta-strip-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .cta-strip-actions .btn {
+    width: 100%;
+  }
 }
 
 /* ---------- New Tour Card Design ---------- */
@@ -1442,7 +1488,7 @@ h1.script-title { font-family: 'Reey', cursive; font-weight: normal; font-size: 
 
 .tours-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 30px;
 }
 

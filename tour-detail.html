@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tour Detail — Maha Lanka Tours</title>
+<meta name="description" content="Detailed information about this Maha Lanka Tours package — itinerary, inclusions, pricing and booking.">
+<link rel="icon" href="images/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+/* =====================================================
+   Tour Detail Page – Scoped Styles
+   ===================================================== */
+
+/* ---------- Hero ---------- */
+.td-hero {
+  position: relative;
+  min-height: 72vh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background: #061428;
+}
+.td-hero-img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.06);
+  transition: transform 9s ease;
+}
+.td-hero-img.loaded { transform: scale(1); }
+.td-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+    rgba(6,20,40,0.15) 0%,
+    rgba(6,20,40,0.40) 40%,
+    rgba(6,20,40,0.88) 100%);
+}
+.td-hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 0 60px;
+  width: 100%;
+}
+.td-hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.td-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.td-badge--cat { background: var(--brand-blue); color: #fff; }
+.td-badge--rating { background: rgba(255,255,255,0.15); color: #fde68a; border: 1px solid rgba(255,255,255,0.25); backdrop-filter: blur(6px); }
+.td-badge--tag { background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(6px); }
+
+.td-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.8rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 18px;
+  max-width: 800px;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+}
+.td-hero-sub {
+  font-size: 1.05rem;
+  color: #bfdbfe;
+  margin-bottom: 28px;
+  max-width: 56ch;
+}
+.td-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+}
+.td-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #e2e8f0;
+  font-weight: 500;
+}
+.td-meta-item svg { color: var(--sky-light); flex-shrink: 0; }
+.td-meta-price {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+}
+.td-meta-price small { font-family: var(--font-body); font-size: 0.75rem; font-weight: 400; color: #94a3b8; }
+
+/* ---------- Sticky booking bar (mobile) ---------- */
+.td-book-bar {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 800;
+  background: var(--deep-blue);
+  padding: 14px 20px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.25);
+}
+.td-book-bar .price-wrap { color: #fff; }
+.td-book-bar .price-wrap strong { font-family: var(--font-display); font-size: 1.4rem; display: block; }
+.td-book-bar .price-wrap span { font-size: 0.75rem; color: #94a3b8; }
+
+/* ---------- Main layout ---------- */
+.td-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 48px;
+  align-items: start;
+  padding: 60px 0 100px;
+}
+.td-main { min-width: 0; }
+
+/* ---------- Highlights ---------- */
+.td-highlights {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 56px;
+}
+.td-highlight-card {
+  background: #f8fafc;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: 24px 20px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.td-highlight-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.td-hl-icon {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--deep-blue), var(--royal-blue));
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 14px;
+}
+.td-highlight-card h4 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted); margin-bottom: 6px; }
+.td-highlight-card p { font-size: 1rem; font-weight: 700; color: var(--deep-blue); }
+
+/* ---------- Photo gallery ---------- */
+.td-gallery {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 240px 240px;
+  gap: 12px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 56px;
+}
+.td-gallery-item {
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.5s ease;
+}
+.td-gallery-item:first-child { grid-row: 1 / 3; }
+.td-gallery-item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(6,20,40,0);
+  transition: background 0.3s;
+}
+.td-gallery-item:hover::after { background: rgba(6,20,40,0.18); }
+.td-gallery-item:hover { transform: scale(1.02); }
+
+/* ---------- Section heading ---------- */
+.td-section-title {
+  font-size: 1.55rem;
+  color: var(--deep-blue);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.td-section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-soft);
+}
+
+/* ---------- Tour highlights bullets ---------- */
+.td-feature-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 56px;
+}
+.td-feature-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-soft);
+}
+.td-feature-check {
+  flex-shrink: 0;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: rgba(14,165,233,0.12);
+  color: var(--sky);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-top: 1px;
+}
+.td-feature-item span { font-size: 0.9rem; color: var(--text-body); font-weight: 500; }
+
+/* ---------- Itinerary accordion ---------- */
+.td-itinerary { margin-bottom: 56px; }
+.td-day {
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+}
+.td-day.open { box-shadow: var(--shadow-md); border-color: transparent; }
+.td-day-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 22px;
+  cursor: pointer;
+  user-select: none;
+  background: #fff;
+  transition: background 0.2s;
+}
+.td-day-header:hover { background: #f8fafc; }
+.td-day.open .td-day-header { background: linear-gradient(135deg, var(--deep-blue), var(--royal-blue)); color: #fff; }
+.td-day-num {
+  flex-shrink: 0;
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  background: rgba(14,165,233,0.1);
+  color: var(--royal-blue);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.85rem;
+  transition: background 0.2s, color 0.2s;
+}
+.td-day.open .td-day-num { background: rgba(255,255,255,0.2); color: #fff; }
+.td-day-label { flex: 1; font-weight: 600; font-size: 0.95rem; }
+.td-day.open .td-day-label { color: #fff; }
+.td-day-chevron {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  transition: transform 0.3s;
+}
+.td-day.open .td-day-chevron { transform: rotate(180deg); color: rgba(255,255,255,0.8); }
+.td-day-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), padding 0.3s;
+  background: #fff;
+  padding: 0 22px;
+}
+.td-day-body.open {
+  max-height: 300px;
+  padding: 20px 22px;
+}
+.td-day-body p { font-size: 0.93rem; color: var(--text-body); line-height: 1.7; }
+
+/* ---------- Includes / Excludes ---------- */
+.td-incl-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin-bottom: 56px;
+}
+.td-incl-col h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 16px; color: var(--deep-blue); }
+.td-incl-list { display: flex; flex-direction: column; gap: 10px; }
+.td-incl-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 0.88rem;
+  color: var(--text-body);
+}
+.td-incl-icon-yes {
+  flex-shrink: 0; margin-top: 2px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: #dcfce7;
+  color: #16a34a;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.65rem; font-weight: 700;
+}
+.td-incl-icon-no {
+  flex-shrink: 0; margin-top: 2px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: #fee2e2;
+  color: #dc2626;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.65rem; font-weight: 700;
+}
+
+/* ---------- Booking sidebar ---------- */
+.td-sidebar { position: sticky; top: calc(var(--header-h) + 24px); }
+.td-booking-card {
+  background: #fff;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+.td-booking-header {
+  background: linear-gradient(135deg, var(--deep-blue), var(--royal-blue));
+  padding: 28px 28px 24px;
+  color: #fff;
+}
+.td-booking-header .from { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: #93c5fd; margin-bottom: 4px; }
+.td-booking-header .price { font-family: var(--font-display); font-size: 2.6rem; font-weight: 700; line-height: 1; }
+.td-booking-header .per { font-family: var(--font-body); font-size: 0.82rem; color: #94a3b8; }
+.td-booking-header .rating-row { display: flex; align-items: center; gap: 6px; margin-top: 12px; font-size: 0.85rem; color: #bfdbfe; }
+.td-booking-header .rating-row strong { color: #fde68a; }
+.td-booking-body { padding: 24px 28px; }
+
+.td-book-perks { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+.td-book-perk {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.85rem; color: var(--text-body);
+}
+.td-book-perk svg { color: var(--sky); flex-shrink: 0; }
+
+.td-book-actions { display: flex; flex-direction: column; gap: 12px; }
+.td-book-actions .btn { justify-content: center; font-size: 1rem; padding: 15px 20px; }
+.btn-book-now {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #fff;
+  border-radius: 999px;
+  font-weight: 700;
+  box-shadow: 0 4px 20px rgba(245,158,11,0.35);
+  transition: transform 0.25s, box-shadow 0.25s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+}
+.btn-book-now:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(245,158,11,0.45); }
+.btn-enquire {
+  background: transparent;
+  color: var(--deep-blue);
+  border: 1.5px solid var(--border-soft);
+  border-radius: 999px;
+  font-weight: 600;
+  transition: border-color 0.2s, color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.btn-enquire:hover { border-color: var(--sky); color: var(--sky); }
+
+.td-contact-row {
+  border-top: 1px solid var(--border-soft);
+  margin-top: 20px;
+  padding-top: 18px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.td-contact-link {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.85rem; color: var(--text-body); font-weight: 500;
+  transition: color 0.2s;
+}
+.td-contact-link:hover { color: var(--sky); }
+.td-contact-link svg { color: var(--sky); flex-shrink: 0; }
+
+/* ---------- Related tours ---------- */
+.td-related { padding: 80px 0; background: linear-gradient(180deg, #f8fafc 0%, #fff 100%); }
+.td-related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-top: 44px;
+}
+.td-rel-card {
+  background: #fff;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+.td-rel-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+.td-rel-img {
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+.td-rel-img-badge {
+  position: absolute; top: 14px; left: 14px;
+  background: var(--deep-blue); color: #fff;
+  padding: 4px 12px; border-radius: 999px;
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+}
+.td-rel-price {
+  position: absolute; bottom: 14px; right: 14px;
+  background: rgba(6,20,40,0.78); color: #fff;
+  padding: 5px 12px; border-radius: 999px;
+  font-size: 0.88rem; font-weight: 700;
+  backdrop-filter: blur(4px);
+}
+.td-rel-body { padding: 18px 20px; }
+.td-rel-meta { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; }
+.td-rel-stars { color: #f59e0b; font-weight: 700; }
+.td-rel-body h4 { font-size: 1.05rem; color: var(--deep-blue); margin-bottom: 4px; line-height: 1.3; }
+.td-rel-body p { font-size: 0.82rem; color: var(--text-muted); }
+.td-rel-link { display: inline-flex; align-items: center; gap: 5px; margin-top: 12px; font-size: 0.82rem; font-weight: 600; color: var(--sky); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1100px) {
+  .td-layout { grid-template-columns: 1fr 320px; gap: 36px; }
+}
+@media (max-width: 900px) {
+  .td-layout { grid-template-columns: 1fr; }
+  .td-sidebar { position: static; }
+  .td-book-bar { display: flex; }
+  .td-highlights { grid-template-columns: 1fr 1fr; }
+  .td-feature-list { grid-template-columns: 1fr; }
+  .td-incl-grid { grid-template-columns: 1fr; }
+  .td-gallery { grid-template-columns: 1fr; grid-template-rows: auto; }
+  .td-gallery-item { height: 220px; }
+  .td-gallery-item:first-child { grid-row: auto; height: 280px; }
+  .td-related-grid { grid-template-columns: 1fr 1fr; }
+  .td-hero { min-height: 55vh; }
+}
+@media (max-width: 600px) {
+  .td-highlights { grid-template-columns: 1fr; }
+  .td-related-grid { grid-template-columns: 1fr; }
+  .td-hero-title { font-size: 1.9rem; }
+  .td-layout { padding: 36px 0 120px; }
+  .td-booking-card { margin-bottom: 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Header ===== -->
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="brand">
+      <img src="images/mlankalogo_transparent.png" alt="Maha Lanka Tours Logo" class="brand-mark">
+    </a>
+    <nav class="main-nav" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="tours.html" class="active">Tour Packages</a>
+      <a href="destinations.html">Destinations</a>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact Us</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn btn-navy btn-sm" data-open="plan-trip" style="padding:10px 24px;font-size:0.95rem;">Book Now</button>
+      <button class="hamburger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<nav class="mobile-nav" aria-label="Mobile">
+  <a href="index.html">Home</a>
+  <a href="tours.html">Tour Packages</a>
+  <a href="destinations.html">Destinations</a>
+  <a href="about.html">About Us</a>
+  <a href="contact.html">Contact Us</a>
+  <button class="btn btn-navy btn-block" data-open="plan-trip">Plan My Trip</button>
+</nav>
+
+<!-- ===== Hero ===== -->
+<section class="td-hero" id="td-hero">
+  <div class="td-hero-img" id="td-hero-img"></div>
+  <div class="td-hero-overlay"></div>
+  <div class="container td-hero-content">
+    <p class="breadcrumbs" id="td-breadcrumbs">
+      <a href="index.html">Home</a> / <a href="tours.html">Tour Packages</a> / <span id="td-bread-name">Loading…</span>
+    </p>
+    <div class="td-hero-badges" id="td-hero-badges"></div>
+    <h1 class="td-hero-title" id="td-hero-title">Loading…</h1>
+    <p class="td-hero-sub" id="td-hero-sub"></p>
+    <div class="td-meta-row" id="td-meta-row"></div>
+  </div>
+</section>
+
+<!-- ===== Mobile sticky book bar ===== -->
+<div class="td-book-bar" id="td-book-bar">
+  <div class="price-wrap">
+    <strong id="td-bar-price">—</strong>
+    <span>per person</span>
+  </div>
+  <a href="contact.html" id="td-bar-btn" class="btn-book-now" style="padding:12px 28px;font-size:0.95rem;">Book Now</a>
+</div>
+
+<!-- ===== Main Content ===== -->
+<main>
+<div class="container td-layout">
+
+  <!-- Left: main content -->
+  <div class="td-main">
+
+    <!-- Key highlights strip -->
+    <div class="td-highlights" id="td-highlights"></div>
+
+    <!-- Photo gallery -->
+    <div class="td-gallery" id="td-gallery"></div>
+
+    <!-- Tour features -->
+    <h2 class="td-section-title">Tour Highlights</h2>
+    <div class="td-feature-list" id="td-feature-list"></div>
+
+    <!-- Day by day itinerary -->
+    <h2 class="td-section-title">Day-by-Day Itinerary</h2>
+    <div class="td-itinerary" id="td-itinerary"></div>
+
+    <!-- Includes / Excludes -->
+    <h2 class="td-section-title">What's Included</h2>
+    <div class="td-incl-grid">
+      <div class="td-incl-col">
+        <h4>&#10003; &nbsp;Included</h4>
+        <div class="td-incl-list" id="td-includes"></div>
+      </div>
+      <div class="td-incl-col">
+        <h4>&#10007; &nbsp;Not Included</h4>
+        <div class="td-incl-list">
+          <div class="td-incl-item"><span class="td-incl-icon-no">&#10007;</span><span>International flights</span></div>
+          <div class="td-incl-item"><span class="td-incl-icon-no">&#10007;</span><span>Visa fees &amp; travel insurance</span></div>
+          <div class="td-incl-item"><span class="td-incl-icon-no">&#10007;</span><span>Personal expenses &amp; gratuities</span></div>
+          <div class="td-incl-item"><span class="td-incl-icon-no">&#10007;</span><span>Optional activities not listed</span></div>
+          <div class="td-incl-item"><span class="td-incl-icon-no">&#10007;</span><span>Meals not mentioned in itinerary</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Right: booking sidebar -->
+  <aside class="td-sidebar">
+    <div class="td-booking-card">
+      <div class="td-booking-header">
+        <p class="from">Starting from</p>
+        <p class="price" id="td-sidebar-price">—</p>
+        <p class="per">per person &nbsp;|&nbsp; All taxes included</p>
+        <div class="rating-row" id="td-sidebar-rating"></div>
+      </div>
+      <div class="td-booking-body">
+        <div class="td-book-perks" id="td-book-perks">
+          <div class="td-book-perk" id="td-perk-dur-row">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span id="td-perk-dur">—</span>
+          </div>
+          <div class="td-book-perk">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            100% Free Cancellation
+          </div>
+          <div class="td-book-perk">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Free Consultation
+          </div>
+          <div class="td-book-perk">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Private Tour — No Group Sharing
+          </div>
+        </div>
+        <div class="td-book-actions">
+          <a href="contact.html" id="td-book-btn" class="btn-book-now">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            Book This Tour
+          </a>
+          <button class="btn-enquire" data-open="plan-trip">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+            Send Enquiry
+          </button>
+        </div>
+        <div class="td-contact-row">
+          <a href="tel:+94112345678" class="td-contact-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 12.63 19.79 19.79 0 01.03 4a2 2 0 012-2.18h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+            +94 11 234 5678
+          </a>
+          <a href="https://wa.me/94112345678" class="td-contact-link" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            WhatsApp Us
+          </a>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+</div><!-- /.td-layout -->
+</main>
+
+<!-- ===== Related Tours ===== -->
+<section class="td-related">
+  <div class="container">
+    <div class="section-head center">
+      <p class="eyebrow" style="justify-content:center">YOU MAY ALSO LIKE</p>
+      <h2 class="section-title">More <span class="script-text">Sri Lanka</span> Adventures</h2>
+    </div>
+    <div class="td-related-grid" id="td-related-grid"></div>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="brand">
+          <img src="images/mlankalogo_transparent.png" alt="Maha Lanka Tours Logo" class="brand-mark">
+          <span>Maha Lanka Tours</span>
+        </a>
+        <p>Boutique luxury travel across Sri Lanka — tailor-made itineraries built on authenticity, sustainability and quiet expertise.</p>
+        <div class="social-row"><a href="#" aria-label="Instagram">IG</a><a href="#" aria-label="Facebook">FB</a><a href="#" aria-label="YouTube">YT</a></div>
+        <p class="sustain-note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg> Fully licensed and insured operators</p>
+      </div>
+      <div class="footer-col"><h4>Top Experiences</h4><ul><li><a href="tours.html">Sigiriya &amp; Culture Tours</a></li><li><a href="tours.html">Hill Country Trains</a></li><li><a href="tours.html">Yala Wildlife Safari</a></li><li><a href="tours.html">More Adventures</a></li></ul></div>
+      <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="index.html">Home</a></li><li><a href="tours.html">Tour Packages</a></li><li><a href="destinations.html">Destinations</a></li><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
+      <div class="footer-col"><h4>Stay in Touch</h4><ul><li><a href="#">Facebook</a></li><li><a href="#">Instagram</a></li><li><a href="#">YouTube</a></li><li><a href="#">WhatsApp</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Maha Lanka Tours. All rights reserved.</span>
+      <span>Licensed Tour Operator — Sri Lanka Tourism Development Authority</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== Plan My Trip Modal ===== -->
+<div class="modal-overlay" id="plan-trip-overlay" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Plan my trip">
+  <div class="modal">
+    <button class="modal-close" aria-label="Close">&times;</button>
+    <div class="modal-body">
+      <h3 style="margin-bottom:6px">Plan My Trip</h3>
+      <p style="color:var(--text-muted);margin-bottom:24px;font-size:0.9rem">A quick 3-step brief so our concierge can tailor your itinerary.</p>
+      <div class="stepper"><div class="dot done"></div><div class="dot"></div><div class="dot"></div></div>
+      <div class="step active">
+        <h4 style="margin-top:0">What draws you to Sri Lanka?</h4>
+        <div class="step-options">
+          <button type="button" class="option-card" data-group="interest" data-value="Culture &amp; Heritage"><strong>Culture &amp; Heritage</strong><span>Temples, ruins, ceremonies</span></button>
+          <button type="button" class="option-card" data-group="interest" data-value="Beach &amp; Wildlife"><strong>Beach &amp; Wildlife</strong><span>Coasts, whales, safaris</span></button>
+          <button type="button" class="option-card" data-group="interest" data-value="Hill Country"><strong>Hill Country</strong><span>Tea, trains, hikes</span></button>
+          <button type="button" class="option-card" data-group="interest" data-value="Honeymoon &amp; Luxury"><strong>Honeymoon &amp; Luxury</strong><span>Romance, indulgence</span></button>
+        </div>
+        <div class="step-nav"><span></span><button type="button" class="btn btn-navy" data-step="next">Continue</button></div>
+      </div>
+      <div class="step">
+        <h4 style="margin-top:0">What's your ideal pace?</h4>
+        <div class="step-options">
+          <button type="button" class="option-card" data-group="pace" data-value="Relaxed"><strong>Relaxed</strong><span>Few stops, more downtime</span></button>
+          <button type="button" class="option-card" data-group="pace" data-value="Balanced"><strong>Balanced</strong><span>A mix of activity &amp; rest</span></button>
+          <button type="button" class="option-card" data-group="pace" data-value="Immersive"><strong>Immersive</strong><span>Packed days, many sights</span></button>
+          <button type="button" class="option-card" data-group="pace" data-value="Adventurous"><strong>Adventurous</strong><span>Hikes, safaris, activity-led</span></button>
+        </div>
+        <div class="step-nav"><button type="button" class="btn btn-ghost" data-step="back">Back</button><button type="button" class="btn btn-navy" data-step="next">Continue</button></div>
+      </div>
+      <div class="step">
+        <form id="plan-trip-form">
+          <h4 style="margin-top:0">A little about you</h4>
+          <div class="form-grid">
+            <div class="form-field full"><label for="plan-name">Full name</label><input type="text" id="plan-name" required></div>
+            <div class="form-field"><label for="plan-email">Email</label><input type="email" id="plan-email" required></div>
+            <div class="form-field"><label for="plan-dates">Approximate dates</label><input type="text" id="plan-dates" placeholder="e.g. March 2027"></div>
+          </div>
+          <div id="plan-summary" style="margin-top:18px;font-size:0.88rem;color:var(--text-muted)"></div>
+          <div class="step-nav"><button type="button" class="btn btn-ghost" data-step="back">Back</button><button type="submit" class="btn btn-primary">Send My Brief</button></div>
+          <div class="form-success" id="plan-success">Thank you — your travel brief has been sent to our concierge team.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/script.js"></script>
+<script>
+/* ======================================================
+   Tour Detail Page — dynamic rendering
+   ====================================================== */
+(function () {
+  var params = new URLSearchParams(window.location.search);
+  var tourId = params.get('id');
+  var tour = (typeof TOURS !== 'undefined') ? TOURS.find(function(t){ return t.id === tourId; }) : null;
+
+  if (!tour) {
+    document.getElementById('td-hero-title').textContent = 'Tour not found';
+    document.getElementById('td-hero-sub').textContent = 'Please return to the tours page and select a valid tour.';
+    return;
+  }
+
+  document.title = tour.name + ' \u2014 Maha Lanka Tours';
+
+  /* ----- Hero ----- */
+  var heroImg = document.getElementById('td-hero-img');
+  heroImg.style.backgroundImage = "url('" + tour.image + "')";
+  setTimeout(function(){ heroImg.classList.add('loaded'); }, 100);
+
+  document.getElementById('td-bread-name').textContent = tour.name;
+  document.getElementById('td-hero-title').textContent = tour.name;
+  document.getElementById('td-hero-sub').textContent = tour.summary;
+
+  document.getElementById('td-hero-badges').innerHTML =
+    '<span class="td-badge td-badge--cat">' + tour.category + '</span>' +
+    '<span class="td-badge td-badge--rating">\u2605 ' + tour.rating + ' (' + tour.reviews + ' reviews)</span>' +
+    '<span class="td-badge td-badge--tag">' + tour.badge + '</span>';
+
+  document.getElementById('td-meta-row').innerHTML =
+    '<div class="td-meta-item">' +
+      '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
+      tour.duration +
+    '</div>' +
+    '<div class="td-meta-item">' +
+      '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>' +
+      'Private Tour' +
+    '</div>' +
+    '<div class="td-meta-item" style="margin-left:auto;">' +
+      '<span class="td-meta-price">$' + tour.price + ' <small>/ person</small></span>' +
+    '</div>';
+
+  /* ----- Mobile bar ----- */
+  document.getElementById('td-bar-price').textContent = '$' + tour.price;
+  document.getElementById('td-bar-btn').href = 'contact.html?tour=' + encodeURIComponent(tour.name);
+
+  /* ----- Highlights strip ----- */
+  var hlData = [
+    { icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>', label: 'Duration', value: tour.duration },
+    { icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>', label: 'Region', value: 'Sri Lanka' },
+    { icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"/></svg>', label: 'Trip Type', value: tour.category },
+    { icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>', label: 'Group Size', value: 'Private Only' },
+    { icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>', label: 'Rating', value: '\u2605 ' + tour.rating + ' (' + tour.reviews + ')' },
+    { icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>', label: 'From', value: '$' + tour.price + '/person' },
+  ];
+  document.getElementById('td-highlights').innerHTML = hlData.map(function(h){
+    return '<div class="td-highlight-card"><div class="td-hl-icon">' + h.icon + '</div><h4>' + h.label + '</h4><p>' + h.value + '</p></div>';
+  }).join('');
+
+  /* ----- Gallery ----- */
+  var allImages = [
+    { src: tour.image, alt: tour.name },
+    { src: 'images/ella_nine_arch.png', alt: 'Ella Nine Arch Bridge' },
+    { src: 'images/kandy_temple.png', alt: 'Kandy Temple' },
+    { src: 'images/mirissa_beach_whale.png', alt: 'Mirissa Beach' },
+    { src: 'images/sigiriya_rock.png', alt: 'Sigiriya Rock' },
+    { src: 'images/yala_leopard_safari.png', alt: 'Yala Safari' },
+  ];
+  var gallerySet = [{ src: tour.image, alt: tour.name }];
+  allImages.forEach(function(g){ if (g.src !== tour.image && gallerySet.length < 3) gallerySet.push(g); });
+  document.getElementById('td-gallery').innerHTML = gallerySet.map(function(g){
+    return '<div class="td-gallery-item" style="background-image:url(\'' + g.src + '\')" title="' + g.alt + '"></div>';
+  }).join('');
+
+  /* ----- Feature bullets ----- */
+  var features = tour.highlights.concat(tour.includes).slice(0, 8);
+  document.getElementById('td-feature-list').innerHTML = features.map(function(h){
+    return '<div class="td-feature-item"><span class="td-feature-check">\u2713</span><span>' + h + '</span></div>';
+  }).join('');
+
+  /* ----- Itinerary accordion ----- */
+  var dayTitles = ['Arrival & Welcome','Exploration Begins','Cultural Immersion','Nature & Adventure','Leisure & Discovery','Scenic Journey','Coastal Relaxation','Farewell Day'];
+  document.getElementById('td-itinerary').innerHTML = tour.itinerary.map(function(step, i){
+    return '<div class="td-day ' + (i===0?'open':'') + '" data-day="' + i + '">' +
+      '<div class="td-day-header" role="button" aria-expanded="' + (i===0) + '">' +
+        '<div class="td-day-num">D' + (i+1) + '</div>' +
+        '<div class="td-day-label">' + (dayTitles[i] || 'Day ' + (i+1)) + '</div>' +
+        '<svg class="td-day-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>' +
+      '</div>' +
+      '<div class="td-day-body ' + (i===0?'open':'') + '"><p>' + step + '</p></div>' +
+    '</div>';
+  }).join('');
+
+  document.getElementById('td-itinerary').addEventListener('click', function(e){
+    var header = e.target.closest('.td-day-header');
+    if (!header) return;
+    var day = header.parentElement;
+    var isOpen = day.classList.contains('open');
+    this.querySelectorAll('.td-day').forEach(function(d){
+      d.classList.remove('open');
+      d.querySelector('.td-day-body').classList.remove('open');
+      d.querySelector('.td-day-header').setAttribute('aria-expanded','false');
+    });
+    if (!isOpen) {
+      day.classList.add('open');
+      day.querySelector('.td-day-body').classList.add('open');
+      header.setAttribute('aria-expanded','true');
+    }
+  });
+
+  /* ----- Includes ----- */
+  document.getElementById('td-includes').innerHTML = tour.includes.map(function(inc){
+    return '<div class="td-incl-item"><span class="td-incl-icon-yes">\u2713</span><span>' + inc + '</span></div>';
+  }).join('');
+
+  /* ----- Sidebar ----- */
+  document.getElementById('td-sidebar-price').textContent = '$' + tour.price;
+  document.getElementById('td-sidebar-rating').innerHTML = '<strong>\u2605 ' + tour.rating + '</strong>&nbsp; ' + tour.reviews + ' verified reviews';
+  document.getElementById('td-perk-dur').textContent = tour.duration;
+  document.getElementById('td-book-btn').href = 'contact.html?tour=' + encodeURIComponent(tour.name);
+
+  /* ----- Related tours ----- */
+  var related = TOURS.filter(function(t){ return t.id !== tour.id; }).slice(0, 3);
+  document.getElementById('td-related-grid').innerHTML = related.map(function(t){
+    return '<div class="td-rel-card reveal-up" onclick="window.location=\'tour-detail.html?id=' + t.id + '\'" role="link" tabindex="0" aria-label="' + t.name + '">' +
+      '<div class="td-rel-img" style="background-image:url(\'' + t.image + '\')">' +
+        '<span class="td-rel-img-badge">' + t.badge + '</span>' +
+        '<span class="td-rel-price">$' + t.price + '</span>' +
+      '</div>' +
+      '<div class="td-rel-body">' +
+        '<div class="td-rel-meta"><span>' + t.duration + '</span><span class="td-rel-stars">\u2605 ' + t.rating + ' <span style="color:var(--text-muted);font-weight:400">(' + t.reviews + ')</span></span></div>' +
+        '<h4>' + t.name + '</h4>' +
+        '<p>' + t.summary + '</p>' +
+        '<span class="td-rel-link">View Details \u2192</span>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+})();
+</script>
+</body>
+</html>
