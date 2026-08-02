@@ -525,6 +525,7 @@ input[type="range"] { accent-color: var(--sky); width: 100%; }
   padding: 150px 0 90px;
   position: relative;
   overflow: hidden;
+  min-height: 100vh;
 }
 .page-hero .eyebrow { color: var(--gold-light); }
 .page-hero .eyebrow::before { background: var(--gold-light); }
@@ -597,7 +598,7 @@ h1.script-title { font-family: 'Reey', cursive; font-weight: normal; font-size: 
 /* ---------- About Hero ---------- */
 .about-hero {
   position: relative;
-  min-height: 520px;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
