@@ -78,11 +78,12 @@ h1, h2, h3, h4 { font-family: var(--font-display); color: var(--deep-blue); font
   font-weight: 600;
   margin-bottom: 14px;
 }
-.eyebrow::before {
+.eyebrow::before,
+.eyebrow[style*="center"]::after {
   content: '';
   width: 28px;
   height: 1px;
-  background: var(--brand-blue);
+  background: currentColor;
 }
 
 .section { padding: 96px 0; }
