@@ -599,12 +599,8 @@ h1.script-title { font-family: 'Reey', cursive; font-weight: normal; font-size: 
 .about-hero {
   position: relative;
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background: url('../images/slideshow1/jerry-kavan-i9eaAR4dWi8-unsplash.jpg') no-repeat center center / cover;
-  text-align: center;
-  padding-bottom: 120px;
+  padding: 150px 0 90px;
 }
 .about-title {
   color: var(--white);
