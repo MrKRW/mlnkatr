@@ -219,13 +219,11 @@ function pkgCardHTML(t) {
       <div class="tour-card-img-wrap">
         <img src="${t.image}" alt="${t.name}">
         <div class="tour-badge-top">${t.badge}</div>
-        <div class="tour-price-badge">$${t.price} <span>/ person</span></div>
       </div>
     </a>
     <div class="tour-card-body">
       <div class="tour-meta">
         <span style="display:flex;align-items:center;gap:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ${t.duration}</span>
-        <span class="tour-meta-stars">★ ${t.rating} <span>(${t.reviews})</span></span>
       </div>
       <h3 style="cursor:pointer"><a href="tour-detail.html?id=${t.id}" style="color:inherit;text-decoration:none;">${t.name}</a></h3>
       <p class="sub">${t.summary}</p>
@@ -370,6 +368,14 @@ function initPlanMyTrip() {
       $$(`.option-card[data-group="${group}"]`, overlay).forEach(c => c.classList.remove('selected'));
       card.classList.add('selected');
       state[group] = card.dataset.value;
+      
+      setTimeout(() => {
+        if (stepIndex < steps.length - 1) {
+          stepIndex++;
+          render();
+        }
+        if (stepIndex === steps.length - 1) buildSummary();
+      }, 200);
     });
   });
 
