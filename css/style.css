@@ -424,7 +424,7 @@ input[type="range"] { accent-color: var(--sky); width: 100%; }
 
 /* ---------- Footer ---------- */
 .site-footer { background: #e3d7c3; color: var(--text-light); padding: 72px 0 28px; }
-.footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1.3fr; gap: 40px; margin-bottom: 48px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; margin-bottom: 48px; }
 .footer-brand .brand { color: var(--navy); }
 .footer-brand p { margin: 16px 0; font-size: 0.9rem; max-width: 34ch; }
 .footer-col h4 { color: var(--navy); font-size: 0.95rem; margin-bottom: 18px; font-family: var(--font-body); }
