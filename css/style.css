@@ -138,7 +138,7 @@ h2.section-title { font-size: clamp(1.8rem, 3.4vw, 2.7rem); }
 .site-header .container { display: flex; align-items: center; justify-content: space-between; width: 100%; }
 
 .brand { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; color: var(--deep-blue); }
-.brand-mark { max-height: 100px; height: 95px; width: auto; flex-shrink: 0; }
+.brand-mark { max-height: 100px; height: 95px; width: auto; flex-shrink: 0; filter: brightness(0.6) contrast(1.2) saturate(1.5); }
 .brand-name { display: none; }
 
 .main-nav { display: flex; align-items: center; gap: 8px; }
